@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #121212;
+  --color-coal: #1b1b1b;
+  --color-paper: #f5f3ef;
+  --color-line: #e4e0d8;
+  --color-smoke: #6e6a62;
+  --color-brand: #a31621;
+  --color-brand-dark: #7c0f17;
+  --color-ember: #c7424d;
+
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-brand);
+  color: #ffffff;
+}
+
+/* ---- Nav link underline ---- */
+.navlink {
+  position: relative;
+}
+.navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 0;
+  background: var(--color-brand);
+  transition: width 0.3s ease;
+}
+.navlink:hover::after {
+  width: 100%;
+}
+
+/* ---- Scroll reveal ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Hero line-mask rise ---- */
+.line-mask {
+  display: block;
+  overflow: hidden;
+}
+.line-mask > span {
+  display: block;
+  transform: translateY(115%);
+  animation: line-rise 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--d, 0.2s);
+}
+@keyframes line-rise {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ---- Slow hero zoom ---- */
+.kenburns {
+  animation: kenburns 28s ease-out both;
+}
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+/* ---- Diagonal hatch (CTA banner) ---- */
+.hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(18, 18, 18, 0.16) 0px,
+    rgba(18, 18, 18, 0.16) 1px,
+    transparent 1px,
+    transparent 11px
+  );
+}
+
+/* ---- Film grain ---- */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .line-mask > span {
+    animation: none;
+    transform: none;
+  }
+  .kenburns {
+    animation: none;
+  }
+  .navlink::after {
+    transition: none;
+  }
+}
